@@ -35,7 +35,10 @@ export function SearchByIdForm({
       setIsLoading(true); // Start the loading process
       setHasSearched(true);
       // Fetch the details of the searched ticket from the backend.
-      let response = await fetch("http://localhost:5000/get-ticket-details", {
+      console.log("teste da env API_SMARTGLPI_BACKEND");
+      console.log(import.meta.env.VITE_API_SMARTGLPI_BACKEND);
+      console.log(`teste de var sac-ntinf = ${import.meta.env.VITE_SAC_NTINF_URL}/front/tick`);
+      let response = await fetch( `${import.meta.env.VITE_API_SMARTGLPI_BACKEND}/get-ticket-details`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -49,7 +52,7 @@ export function SearchByIdForm({
       // If the ticket is not found, fetch the ticket from GLPI and generate its embedding
       if (data.error && data.error === "Ticket not found") {
         let embedResponse = await fetch(
-          "http://localhost:5000/create-and-embed-ticket",
+          `${import.meta.env.VITE_API_SMARTGLPI_BACKEND}/create-and-embed-ticket`,
           {
             method: "POST",
             headers: {
@@ -66,18 +69,18 @@ export function SearchByIdForm({
       if (data.title) {
         setTicketTitle(data.title);
         setTicketLink(
-          `https://sac-ntinf.ufsj.edu.br/front/ticket.form.php?id=${ticketNumber}`
+          `${import.meta.env.VITE_SAC_NTINF_URL}/front/ticket.form.php?id=${ticketNumber}`
         );
 
         // Update the displayed ticket title and set the hyperlink.
         // For now, I'm just logging them. You might want to set them in component state or pass them to other components.
         console.log(`Ticket Title: ${data.title}`);
         console.log(
-          `Ticket Link: https://sac-ntinf.ufsj.edu.br/front/ticket.form.php?id=${ticketNumber}`
+          `Ticket Link: ${import.meta.env.VITE_SAC_NTINF_URL}/front/ticket.form.php?id=${ticketNumber}`
         );
 
         // Fetch similar tickets from the backend.
-        response = await fetch("http://localhost:5000/find-similar-tickets", {
+        response = await fetch(import.meta.env.VITE_API_SMARTGLPI_BACKEND+"/find-similar-tickets", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

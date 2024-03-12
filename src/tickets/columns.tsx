@@ -39,7 +39,7 @@ export const columns: ColumnDef<Ticket>[] = [
     accessorKey: "title",
     header: "Title",
     cell: ({ row }) => {
-      const ticketLink = `https://sac-ntinf.ufsj.edu.br/front/ticket.form.php?id=${row.original.id}`;
+      const ticketLink = `${import.meta.env.VITE_SAC_NTINF_URL}/front/ticket.form.php?id=${row.original.id}`;
       return (
         <a
           id="ticketSearchedTitle"
